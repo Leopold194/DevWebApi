@@ -1,4 +1,3 @@
 - Pouvoir promouvoir user
 - Ne pas pouvoir mettre un user qui n'existe pas comme proprio
-- GET/DELETE reservations
 - Supprimer toutes les reservations si apartement ou client est supprimé

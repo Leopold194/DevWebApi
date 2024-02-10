@@ -6,6 +6,11 @@ class ReservationsRepository:
     def __init__(self):
         self.crud = CrudManager(Reservations)
 
+    def del_reservation(self, reserv_id):
+        if self.crud.delete(reserv_id):
+            return True
+        raise exce.ObjectDoesntExist()
+
     def get_reservation_columns(self):
         default_column = {'starting_date':str, 'ending_date':str, 'reservationartment':int}
         reserv = self.crud.find_all()

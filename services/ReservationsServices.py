@@ -7,6 +7,9 @@ class ReservationsService:
     def __init__(self):
         self.reserv_repo = ReservationsRepository()
 
+    def del_reservation(self, reserv_id):
+        return self.reserv_repo.del_reservation(reserv_id)
+
     def check_reservation_body_obligatory(self, body):
         obligatory_data = self.reserv_repo.get_reservation_columns()
         print(obligatory_data)

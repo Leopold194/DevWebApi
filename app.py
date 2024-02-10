@@ -73,5 +73,13 @@ def add_reservation():
 def get_reservations():
     return ReservationsController(app).get_reservation(request)
 
+@app.delete('/v1/reservations/<int:reserv_id>')
+def del_reservation(reserv_id):
+    return ReservationsController(app).del_reservation(request, reserv_id)
+
+@app.delete('/v1/reservations/')
+def del_reservation_error():
+    return Response("{\"error\":\"You have not entered the ID of the reservation you wish to delete.\"}")
+
 if __name__ == "__main__":
     app.run()

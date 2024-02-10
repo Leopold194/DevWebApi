@@ -30,7 +30,6 @@ class ApartmentService:
         return self.check_body(body, possible_data)
 
     def add_apartments(self, body):
-
         return self.aps_repo.add_apartments(body)
 
     def modify_apartment(self, ap_id, body):

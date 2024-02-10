@@ -19,7 +19,17 @@ class ReservationsController:
             return Response("{\"content\":"+str(reservations)+"}", status=200, mimetype='application/json')
         return is_admin
 
-    def add_reservation(self, request):
+    def del_reservation(self, request, reserv_id):
+        is_admin = UsersController(self.app).is_admin(request)
+        if is_admin == True:
+            try:
+                self.reserv_serv.del_reservation(reserv_id)
+                return Response("{\"success\":\"This reservation is deleted from our database.\"}", status=200, mimetype='application/json')
+            except exce.ObjectDoesntExist:
+                return Response("{\"error\":\"This reservation does not exist.\"}", status=400, mimetype='application/json')
+        return is_admin
+
+    def add_reservations(self, request):
         this_user = UsersController(self.app).get_connected_user(request)
         if type(this_user) == int:
             try:
