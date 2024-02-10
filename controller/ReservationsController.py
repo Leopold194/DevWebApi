@@ -29,7 +29,7 @@ class ReservationsController:
                 return Response("{\"error\":\"This reservation does not exist.\"}", status=400, mimetype='application/json')
         return is_admin
 
-    def add_reservations(self, request):
+    def add_reservation(self, request):
         this_user = UsersController(self.app).get_connected_user(request)
         if type(this_user) == int:
             try:
@@ -40,6 +40,8 @@ class ReservationsController:
                 self.reserv_serv.check_reservation_body_obligatory(body)
                 new_obj = self.reserv_serv.add_reservation(body, this_user)
                 return Response("{\"content\":"+str(new_obj)+"}", status=200, mimetype='application/json')
+            except exce.ObjectDoesntExist:
+                return Response("{\"error\":\"This apartment does not exist.\"}", status=400, mimetype='application/json')
             except exce.IncorrectFields:
                 return Response("{\"error\":\"You have entered incorrect fields in your body.\"}", status=400, mimetype='application/json')
             except exce.ObjectNotCreated:

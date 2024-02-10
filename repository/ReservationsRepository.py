@@ -11,8 +11,18 @@ class ReservationsRepository:
             return True
         raise exce.ObjectDoesntExist()
 
+    def del_ap_reserv(self, ap_id):
+        for reserv in self.crud.find_by_kargs(apartment=ap_id):
+            self.crud.delete(reserv.id)
+        return True
+        
+    def del_user_reserv(self, user_id):
+        for reserv in self.crud.find_by_kargs(customer=user_id):
+            self.crud.delete(reserv.id)
+        return True
+
     def get_reservation_columns(self):
-        default_column = {'starting_date':str, 'ending_date':str, 'reservationartment':int}
+        default_column = {'starting_date':str, 'ending_date':str, 'apartment':int}
         reserv = self.crud.find_all()
         if reserv:
             reserv_data = dict(reserv[0].__dict__)
@@ -26,7 +36,7 @@ class ReservationsRepository:
         return default_column
     
     def check_disponibility(self, reservation_id, starting, ending):
-        reservations = self.crud.find_by_kargs(reservationartment = reservation_id)
+        reservations = self.crud.find_by_kargs(apartment = reservation_id)
         for reservation in reservations:
             if (reservation.starting_date >= starting and reservation.starting_date <= ending) \
                 or (reservation.ending_date >= starting and reservation.ending_date <= ending) \
@@ -35,7 +45,7 @@ class ReservationsRepository:
         return True
     
     def get_reservations_filters(self):
-        default_filters = ['starting_date', 'ending_date', 'reservationartment', 'customer', 'price', 'id']
+        default_filters = ['starting_date', 'ending_date', 'apartment', 'customer', 'price', 'id']
         reservations = self.crud.find_all()
         if reservations:
             reservations_data = dict(reservations[0].__dict__)

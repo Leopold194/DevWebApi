@@ -1,5 +1,6 @@
 from connection.functions import encode_auth_token
 from repository.UsersRepository import UsersRepository
+from repository.ReservationsRepository import ReservationsRepository
 import exceptions.exceptions as exce
 import bcrypt
 import re
@@ -48,7 +49,7 @@ class UsersService:
         return self.users_repo.get_users(filters)
 
     def del_user(self, user_id):
-        # Supprimer toutes les réservations
+        ReservationsRepository().del_user_reserv(user_id)
         return self.users_repo.del_user(user_id)
 
     def register_user(self, body):

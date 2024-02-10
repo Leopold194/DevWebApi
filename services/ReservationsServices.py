@@ -35,7 +35,10 @@ class ReservationsService:
         except ValueError:
             raise exce.WrongDates()
         if self.reserv_repo.check_disponibility(body['apartment'], body['starting_date'], body['ending_date']):
-            body['price'] = ApartmentsRepository().get_ap_price(body['apartment']) * (body['ending_date'] - body['starting_date']).days
+            try:
+                body['price'] = ApartmentsRepository().get_ap_price(body['apartment']) * (body['ending_date'] - body['starting_date']).days
+            except:
+                raise exce.ObjectDoesntExist()
             body['customer'] = user_id
             return self.reserv_repo.create_reservation(body)
         raise exce.ReservationNotPossible()

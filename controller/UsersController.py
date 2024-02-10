@@ -64,9 +64,9 @@ class UsersController:
         if is_admin == True:
             try:
                 self.users_serv.del_user(user_id)
-                return Response("{\"success\":\"This apartment is deleted from our database.\"}", status=200, mimetype='application/json')
+                return Response("{\"success\":\"This user is deleted from our database.\"}", status=200, mimetype='application/json')
             except exce.ObjectDoesntExist:
-                return Response("{\"error\":\"This apartment does not exist.\"}", status=400, mimetype='application/json')
+                return Response("{\"error\":\"This user does not exist.\"}", status=400, mimetype='application/json')
         return is_admin
     
     def get_connected_user(self, request):

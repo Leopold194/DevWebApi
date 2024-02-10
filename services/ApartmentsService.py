@@ -1,4 +1,5 @@
 from repository.ApartmentsRepository import ApartmentsRepository
+from repository.ReservationsRepository import ReservationsRepository
 import exceptions.exceptions as exce
 
 class ApartmentService:
@@ -40,7 +41,7 @@ class ApartmentService:
             return self.aps_repo.update_availability(ap_id)
         raise exce.ObjectDoesntExist()
 
-    def del_apartment(self, ap_id):
-        # Supprimer toutes les réservations
+    def del_apartments(self, ap_id):
+        ReservationsRepository().del_ap_reserv(ap_id)
         return self.aps_repo.del_apartment(ap_id)
     
