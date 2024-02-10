@@ -11,6 +11,14 @@ class ReservationsController:
         self.reserv_serv = ReservationsService()
         self.app = app
 
+    def get_reservation(self, request):
+        is_admin = UsersController(self.app).is_admin(request)
+        if is_admin == True:
+            filters = request.args
+            reservations = self.reserv_serv.get_reservations(filters)
+            return Response("{\"content\":"+str(reservations)+"}", status=200, mimetype='application/json')
+        return is_admin
+
     def add_reservation(self, request):
         this_user = UsersController(self.app).get_connected_user(request)
         if type(this_user) == int:

@@ -7,7 +7,7 @@ class ReservationsRepository:
         self.crud = CrudManager(Reservations)
 
     def get_reservation_columns(self):
-        default_column = {'starting_date':str, 'ending_date':str, 'apartment':int}
+        default_column = {'starting_date':str, 'ending_date':str, 'reservationartment':int}
         reserv = self.crud.find_all()
         if reserv:
             reserv_data = dict(reserv[0].__dict__)
@@ -20,8 +20,8 @@ class ReservationsRepository:
             return {k:type(v) for k, v in reserv_data.items()}
         return default_column
     
-    def check_disponibility(self, ap_id, starting, ending):
-        reservations = self.crud.find_by_kargs(apartment = ap_id)
+    def check_disponibility(self, reservation_id, starting, ending):
+        reservations = self.crud.find_by_kargs(reservationartment = reservation_id)
         for reservation in reservations:
             if (reservation.starting_date >= starting and reservation.starting_date <= ending) \
                 or (reservation.ending_date >= starting and reservation.ending_date <= ending) \
@@ -29,6 +29,15 @@ class ReservationsRepository:
                 return False
         return True
     
+    def get_reservations_filters(self):
+        default_filters = ['starting_date', 'ending_date', 'reservationartment', 'customer', 'price', 'id']
+        reservations = self.crud.find_all()
+        if reservations:
+            reservations_data = dict(reservations[0].__dict__)
+            reservations_data.pop('_sa_instance_state')
+            return list(reservations_data.keys())
+        return default_filters
+
     def create_reservation(self, body):
         created_object_id = self.crud.insert(body)
         if created_object_id:
@@ -36,3 +45,11 @@ class ReservationsRepository:
             created_object_data.pop('_sa_instance_state')
             return created_object_data
         return exce.ObjectNotCreated()
+    
+    def get_reservations(self, filters):
+        reservations_data = {}
+        for reservation in self.crud.find_by_kargs(**filters):
+            reservation_data = dict(reservation.__dict__)
+            reservation_data.pop('_sa_instance_state')
+            reservations_data[reservation.id] = reservation_data
+        return reservations_data

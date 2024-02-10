@@ -69,5 +69,9 @@ def change_availability_error():
 def add_reservation():
     return ReservationsController(app).add_reservation(request)
 
+@app.get('/v1/reservations/')
+def get_reservations():
+    return ReservationsController(app).get_reservation(request)
+
 if __name__ == "__main__":
     app.run()

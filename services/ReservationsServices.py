@@ -17,6 +17,14 @@ class ReservationsService:
                 raise exce.IncorrectFields()
         return True
 
+    def get_reservations(self, filters):
+        available_filters = self.reserv_repo.get_reservations_filters()
+        filters = {}
+        for arg in filters:        
+            if arg in available_filters:
+                filters[arg] = filters[arg]
+        return self.reserv_repo.get_reservations(filters)
+
     def add_reservation(self, body, user_id):
         try:
             body['starting_date'] = datetime.strptime(body['starting_date'], "%Y-%m-%d")
