@@ -1,5 +1,6 @@
 from repository.ApartmentsRepository import ApartmentsRepository
 from repository.ReservationsRepository import ReservationsRepository
+from repository.UsersRepository import UsersRepository
 import exceptions.exceptions as exce
 
 class ApartmentService:
@@ -31,7 +32,9 @@ class ApartmentService:
         return self.check_body(body, possible_data)
 
     def add_apartments(self, body):
-        return self.aps_repo.add_apartments(body)
+        if UsersRepository().check_user_exist(body['proprio']):
+            return self.aps_repo.add_apartments(body)
+        raise exce.ObjectDoesntExist()
 
     def modify_apartment(self, ap_id, body):
         return self.aps_repo.modify_apartment(ap_id, body)

@@ -68,3 +68,6 @@ class UsersRepository:
             user_data.pop('password')
             users_data[user.id] = user_data
         return users_data
+    
+    def check_user_exist(self, user_id):
+        return self.crud.find_by_id(user_id)

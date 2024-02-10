@@ -1,2 +1,1 @@
 - Pouvoir promouvoir user
-- Ne pas pouvoir mettre un user qui n'existe pas comme proprio

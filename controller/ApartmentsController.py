@@ -5,9 +5,6 @@ from services.ApartmentsService import ApartmentService
 from controller.UsersController import UsersController
 import exceptions.exceptions as exce
 
-
-from connection.functions import decode_auth_token
-
 class ApartmentController:
     def __init__(self, app):
         self.crud = CrudManager(Apartments)
@@ -55,6 +52,8 @@ class ApartmentController:
                 return Response("{\"error\":\"Your object could not be created.\"}", status=404, mimetype='application/json')
             except exce.NoMandatoryFields:
                 return Response("{\"error\":\"You have not completed all the required fields.\"}", status=400, mimetype='application/json')
+            except exce.ObjectDoesntExist:
+                return Response("{\"error\":\"This proprio does not exist.\"}", status=400, mimetype='application/json')
         return is_admin
 
     def modify_apartment(self, request, ap_id):
