@@ -53,3 +53,20 @@ class ReservationsController:
             except exce.WrongDates:
                 return Response("{\"error\":\"Please enter correct dates (YYYY-MM-DD).\"}", status=400, mimetype='application/json')
         return this_user
+    
+    def modify_reservation(self, request, reserv_id):
+        is_admin = UsersController(self.app).is_admin(request)
+        if is_admin == True:
+            try:
+                body = request.json
+            except:
+                return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
+            try:
+                self.reserv_serv.check_reserv_body(body)
+                updated_obj = self.reserv_serv.modify_reserv(reserv_id, body)
+                return Response("{\"content\":"+str(updated_obj)+"}", status=200, mimetype='application/json')
+            except exce.IncorrectFields:
+                return Response("{\"error\":\"You have entered incorrect fields in your body.\"}", status=400, mimetype='application/json')
+            except exce.ObjectDoesntExist:
+                return Response("{\"error\":\"This reservation does not exist.\"}", status=400, mimetype='application/json')
+        return is_admin

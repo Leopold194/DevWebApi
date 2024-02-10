@@ -21,15 +21,16 @@ class ReservationsRepository:
             self.crud.delete(reserv.id)
         return True
 
-    def get_reservation_columns(self):
+    def get_reservation_columns(self, creating = True):
         default_column = {'starting_date':str, 'ending_date':str, 'apartment':int}
         reserv = self.crud.find_all()
         if reserv:
             reserv_data = dict(reserv[0].__dict__)
             reserv_data.pop('_sa_instance_state')
             reserv_data.pop('id')
-            reserv_data.pop('price')
-            reserv_data.pop('customer')
+            if creating:
+                reserv_data.pop('price')
+                reserv_data.pop('customer')
             reserv_data['starting_date'] = ""
             reserv_data['ending_date'] = ""
             return {k:type(v) for k, v in reserv_data.items()}
@@ -68,3 +69,11 @@ class ReservationsRepository:
             reservation_data.pop('_sa_instance_state')
             reservations_data[reservation.id] = reservation_data
         return reservations_data
+    
+    def modify_reserv(self, reserv_id, body):
+        updated_obj_id = self.crud.update(reserv_id, **body)
+        if updated_obj_id:
+            updated_obj_data = self.crud.find_by_id(updated_obj_id).__dict__
+            updated_obj_data.pop('_sa_instance_state')
+            return updated_obj_data
+        raise exce.ObjectDoesntExist()

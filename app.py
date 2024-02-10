@@ -29,6 +29,14 @@ def del_user(user_id):
 def del_user_error():
     return Response("{\"error\":\"You have not entered the ID of the user you wish to delete.\"}")
 
+@app.patch('/v1/users/<int:user_id>')
+def modify_user(user_id):
+    return UsersController(app).modify_user(request, user_id)
+
+@app.patch('/v1/users/')
+def modify_user_error():
+    return Response("{\"error\":\"You have not entered the ID of the user you wish to modify.\"}")
+
 @app.get('/v1/apartments/')
 def get_aps():
     return ApartmentController(app).get_apartments(request)
@@ -80,6 +88,14 @@ def del_reservation(reserv_id):
 @app.delete('/v1/reservations/')
 def del_reservation_error():
     return Response("{\"error\":\"You have not entered the ID of the reservation you wish to delete.\"}")
+
+@app.patch('/v1/reservations/<int:reserv_id>')
+def update_reservation(reserv_id):
+    return ReservationsController(app).modify_reservation(request, reserv_id)
+
+@app.patch('/v1/reservations/')
+def update_reservation_error():
+    return Response("{\"error\":\"You have not entered the ID of the reservation you wish to modify.\"}")
 
 if __name__ == "__main__":
     app.run()

@@ -18,14 +18,24 @@ class UsersRepository:
             return user
         return None
 
-    def get_users_columns(self):
+    def modify_user(self, user_id, body):
+        updated_obj_id = self.crud.update(user_id, **body)
+        if updated_obj_id:
+            updated_obj_data = self.crud.find_by_id(updated_obj_id).__dict__
+            updated_obj_data.pop('_sa_instance_state')
+            updated_obj_data.pop('password')
+            return updated_obj_data
+        raise exce.ObjectDoesntExist()
+
+    def get_users_columns(self, creating = True):
         default_column = {'firstname':str, 'lastname':str, 'email':str, 'password':str}
         user = self.crud.find_all()
         if user:
             user_data = dict(user[0].__dict__)
             user_data.pop('_sa_instance_state')
             user_data.pop('id')
-            user_data.pop('status')
+            if creating:
+                user_data.pop('status')
             good_column = {k:type(v) for k, v in user_data.items()}
             good_column['password'] = str
             return good_column

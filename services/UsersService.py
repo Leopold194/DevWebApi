@@ -25,21 +25,31 @@ class UsersService:
             raise exce.TokenError()
         return token
     
+    def modify_user(self, user_id, body):
+        return self.users_repo.modify_user(user_id, body)
+
     def check_is_admin(self, user_id):
         user = self.users_repo.check_is_admin(user_id)
         if user:
             return True
         return False
     
+    def check_body(self, body, data):
+        for k, v in body.items():
+            if k not in data.keys() or type(v) != data[k]:
+                raise exce.IncorrectFields()
+        return True
+    
     def check_user_body_obligatory(self, body):
         obligatory_data = self.users_repo.get_users_columns()
         if len(body.keys()) != len(obligatory_data.keys()):
             raise exce.NoMandatoryFields()
-        for k, v in body.items():
-            if k not in obligatory_data.keys() or type(v) != obligatory_data[k]:
-                raise exce.IncorrectFields()
-        return True
+        return self.check_body(body, obligatory_data)
     
+    def check_user_body(self, body):
+        possible_data = self.users_repo.get_users_columns(False)
+        return self.check_body(body, possible_data)
+
     def get_users(self, filters):
         available_filters = self.users_repo.get_users_filters()
         filters = {}
