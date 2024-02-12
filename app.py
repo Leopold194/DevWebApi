@@ -1,13 +1,30 @@
 from flask import Flask, request, Response
+from flask_swagger_ui import get_swaggerui_blueprint
 import os
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 
+SWAGGER_URL = '/v1/docs'
+API_URL = '/static/swagger.json'
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "API Documentation"
+    }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
 from controller.ApartmentsController import ApartmentController
 from controller.UsersController import UsersController
 from controller.ReservationsController import ReservationsController
+
+@app.route('/static/swagger.json')
+def serve_swagger_spec():
+    return app.send_static_file('swagger.json')
 
 @app.post('/v1/login/')
 def login():

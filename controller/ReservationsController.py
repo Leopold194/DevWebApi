@@ -4,6 +4,7 @@ from flask import Response
 from services.ReservationsServices import ReservationsService
 from controller.UsersController import UsersController
 import exceptions.exceptions as exce
+import json
 
 class ReservationsController:
     def __init__(self, app):
@@ -15,8 +16,8 @@ class ReservationsController:
         is_admin = UsersController(self.app).is_admin(request)
         if is_admin == True:
             filters = request.args
-            reservations = self.reserv_serv.get_reservations(filters)
-            return Response("{\"content\":"+str(reservations)+"}", status=200, mimetype='application/json')
+            reservations = json.dumps(self.reserv_serv.get_reservations(filters))
+            return Response(reservations, status=200, mimetype='application/json')
         return is_admin
 
     def del_reservation(self, request, reserv_id):
@@ -38,8 +39,8 @@ class ReservationsController:
                 return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
             try:
                 self.reserv_serv.check_reservation_body_obligatory(body)
-                new_obj = self.reserv_serv.add_reservation(body, this_user)
-                return Response("{\"content\":"+str(new_obj)+"}", status=200, mimetype='application/json')
+                new_obj = json.dumps(self.reserv_serv.add_reservation(body, this_user))
+                return Response(new_obj, status=200, mimetype='application/json')
             except exce.ObjectDoesntExist:
                 return Response("{\"error\":\"This apartment does not exist.\"}", status=400, mimetype='application/json')
             except exce.IncorrectFields:
@@ -52,6 +53,8 @@ class ReservationsController:
                 return Response("{\"error\":\"This apartment is not available on these dates.\"}", status=400, mimetype='application/json')
             except exce.WrongDates:
                 return Response("{\"error\":\"Please enter correct dates (YYYY-MM-DD).\"}", status=400, mimetype='application/json')
+            except AttributeError:
+                return Response("{\"error\":\"Please enter a body in dictionary form.\"}", status=400, mimetype='application/json')
         return this_user
     
     def modify_reservation(self, request, reserv_id):
@@ -63,10 +66,12 @@ class ReservationsController:
                 return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
             try:
                 self.reserv_serv.check_reserv_body(body)
-                updated_obj = self.reserv_serv.modify_reserv(reserv_id, body)
-                return Response("{\"content\":"+str(updated_obj)+"}", status=200, mimetype='application/json')
+                updated_obj = json.dumps(self.reserv_serv.modify_reserv(reserv_id, body))
+                return Response(updated_obj, status=200, mimetype='application/json')
             except exce.IncorrectFields:
                 return Response("{\"error\":\"You have entered incorrect fields in your body.\"}", status=400, mimetype='application/json')
             except exce.ObjectDoesntExist:
                 return Response("{\"error\":\"This reservation does not exist.\"}", status=400, mimetype='application/json')
+            except AttributeError:
+                return Response("{\"error\":\"Please enter a body in dictionary form.\"}", status=400, mimetype='application/json')
         return is_admin

@@ -1,0 +1,308 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API Documentation",
+      "version": "1.0.0",
+      "description": "API Documentation for Apartments and Users"
+    },
+    "servers": [
+      {
+        "url": "http://127.0.0.1:5000/",
+        "description": "Local server"
+      }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Endpoints related to authentication"
+        },
+        {
+            "name": "Users",
+            "description": "Endpoints related to user management"
+        },
+        {
+            "name": "Apartments",
+            "description": "Endpoints related to apartment management"
+        },
+        {
+            "name": "Reservations",
+            "description": "Endpoints related to reservation management"
+        }
+    ],
+    "paths": {
+      "/v1/login/": {
+        "post": {
+          "summary": "Login",
+          "tags": ["Authentication"],
+          "description": "Endpoint to login a user.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "example": "your.email@example.xyz" 
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "yourpassword" 
+                      }
+                    }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful login."
+            }
+          }
+        }
+      },
+      "/v1/register": {
+        "post": {
+            "summary": "Register",
+            "description": "Endpoint to register a new user.",
+            "responses": {
+                "200": {
+                    "description": "Successful registration."
+                }
+            }
+        }
+      },
+      "/v1/users": {
+        "get": {
+          "summary": "Get Users",
+          "description": "Endpoint to retrieve all users.",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of users."
+            }
+          }
+        }
+      },
+      "/v1/users/{user_id}": {
+        "delete": {
+          "summary": "Delete User",
+          "description": "Endpoint to delete a user by ID.",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "description": "ID of the user to delete.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted successfully."
+            }
+          }
+        },
+        "patch": {
+          "summary": "Modify User",
+          "description": "Endpoint to modify a user by ID.",
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "path",
+              "description": "ID of the user to modify.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User modified successfully."
+            }
+          }
+        }
+      },
+      "/v1/apartments": {
+        "get": {
+          "summary": "Get Apartments",
+          "description": "Endpoint to retrieve all apartments.",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of apartments."
+            }
+          }
+        },
+        "post": {
+          "summary": "Add Apartment",
+          "description": "Endpoint to add a new apartment.",
+          "responses": {
+            "200": {
+              "description": "Apartment added successfully."
+            }
+          }
+        }
+      },
+      "/v1/apartments/{ap_id}": {
+        "delete": {
+          "summary": "Delete Apartment",
+          "description": "Endpoint to delete an apartment by ID.",
+          "parameters": [
+            {
+              "name": "ap_id",
+              "in": "path",
+              "description": "ID of the apartment to delete.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Apartment deleted successfully."
+            }
+          }
+        },
+        "patch": {
+          "summary": "Modify Apartment",
+          "description": "Endpoint to modify an apartment by ID.",
+          "parameters": [
+            {
+              "name": "ap_id",
+              "in": "path",
+              "description": "ID of the apartment to modify.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Apartment modified successfully."
+            }
+          }
+        }
+      },
+      "/v1/my_aps/": {
+        "get": {
+          "summary": "Get My Apartments",
+          "description": "Endpoint to retrieve apartments of the current user.",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of user's apartments."
+            }
+          }
+        }
+      },
+      "/v1/availability_change/{ap_id}": {
+        "patch": {
+          "summary": "Change Availability",
+          "description": "Endpoint to change availability of an apartment by ID.",
+          "parameters": [
+            {
+              "name": "ap_id",
+              "in": "path",
+              "description": "ID of the apartment to modify availability.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Apartment availability changed successfully."
+            }
+          }
+        }
+      },
+      "/v1/reservations/": {
+        "post": {
+          "summary": "Add Reservation",
+          "description": "Endpoint to add a new reservation.",
+          "responses": {
+            "200": {
+              "description": "Reservation added successfully."
+            }
+          }
+        },
+        "get": {
+          "summary": "Get Reservations",
+          "description": "Endpoint to retrieve all reservations.",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of reservations."
+            }
+          }
+        }
+      },
+      "/v1/reservations/{reserv_id}": {
+        "delete": {
+          "summary": "Delete Reservation",
+          "description": "Endpoint to delete a reservation by ID.",
+          "parameters": [
+            {
+              "name": "reserv_id",
+              "in": "path",
+              "description": "ID of the reservation to delete.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reservation deleted successfully."
+            }
+          }
+        },
+        "patch": {
+          "summary": "Modify Reservation",
+          "description": "Endpoint to modify a reservation by ID.",
+          "parameters": [
+            {
+              "name": "reserv_id",
+              "in": "path",
+              "description": "ID of the reservation to modify.",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reservation modified successfully."
+            }
+          }
+        }
+      }
+    }
+  }
+  

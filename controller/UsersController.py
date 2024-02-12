@@ -3,6 +3,7 @@ from database.crud import CrudManager
 from flask import Response
 from services.UsersService import UsersService
 import exceptions.exceptions as exce
+import json
 from connection.functions import decode_auth_token
 
 class UsersController:
@@ -26,6 +27,8 @@ class UsersController:
             return Response("{\"error\":\"You have not provided an email or password.\"}", status=400, mimetype='application/json')
         except exce.TokenError:
             return Response("{\"error\":\"The token could not be created.\"}", status=404, mimetype='application/json')
+        except AttributeError:
+            return Response("{\"error\":\"Please enter a body in dictionary form.\"}", status=400, mimetype='application/json')
         
     def register(self, request):
         try:
@@ -34,8 +37,8 @@ class UsersController:
             return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
         try:
             self.users_serv.check_user_body_obligatory(body)
-            new_obj = self.users_serv.register_user(body)
-            return Response("{\"content\":"+str(new_obj)+"}", status=200, mimetype='application/json')
+            new_obj = json.dumps(self.users_serv.register_user(body))
+            return Response(new_obj, status=200, mimetype='application/json')
         except exce.IncorrectFields:
             return Response("{\"error\":\"You have entered incorrect fields in your body.\"}", status=400, mimetype='application/json')
         except exce.ObjectNotCreated:
@@ -50,6 +53,8 @@ class UsersController:
             return Response("{\"error\":\"Please provide a valid password.\"}", status=400, mimetype='application/json')
         except exce.WrongNames:
             return Response("{\"error\":\"Please provide a valid lastname and fisrtname.\"}", status=400, mimetype='application/json')
+        except AttributeError:
+            return Response("{\"error\":\"Please enter a body in dictionary form.\"}", status=400, mimetype='application/json')
 
     def modify_user(self, request, user_id):
         is_admin = UsersController(self.app).is_admin(request)
@@ -60,20 +65,22 @@ class UsersController:
                 return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
             try:
                 self.users_serv.check_user_body(body)
-                updated_obj = self.users_serv.modify_user(user_id, body)
-                return Response("{\"content\":"+str(updated_obj)+"}", status=200, mimetype='application/json')
+                updated_obj = json.dumps(self.users_serv.modify_user(user_id, body))
+                return Response(updated_obj, status=200, mimetype='application/json')
             except exce.IncorrectFields:
                 return Response("{\"error\":\"You have entered incorrect fields in your body.\"}", status=400, mimetype='application/json')
             except exce.ObjectDoesntExist:
                 return Response("{\"error\":\"This user does not exist.\"}", status=400, mimetype='application/json')
+            except AttributeError:
+                return Response("{\"error\":\"Please enter a body in dictionary form.\"}", status=400, mimetype='application/json')
         return is_admin
 
     def get_users(self, request):
         is_admin = self.is_admin(request)
         if is_admin == True:
             filters = request.args
-            users = self.users_serv.get_users(filters)
-            return Response("{\"content\":"+str(users)+"}", status=200, mimetype='application/json')
+            users = json.dumps(self.users_serv.get_users(filters))
+            return Response(users, status=200, mimetype='application/json')
         return is_admin
 
     def del_user(self, request, user_id):
