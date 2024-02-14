@@ -80,7 +80,7 @@
             "summary": "Register",
             "description": "Endpoint to register a new user.",
             "responses": {
-                "200": {
+                "201": {
                     "description": "Successful registration."
                 }
             }
@@ -155,7 +155,7 @@
           "summary": "Add Apartment",
           "description": "Endpoint to add a new apartment.",
           "responses": {
-            "200": {
+            "201": {
               "description": "Apartment added successfully."
             }
           }
@@ -244,7 +244,7 @@
           "summary": "Add Reservation",
           "description": "Endpoint to add a new reservation.",
           "responses": {
-            "200": {
+            "201": {
               "description": "Reservation added successfully."
             }
           }
