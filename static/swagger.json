@@ -78,6 +78,7 @@
       "/v1/register": {
         "post": {
             "summary": "Register",
+            "tags": ["Authentication"],
             "description": "Endpoint to register a new user.",
             "responses": {
                 "201": {
@@ -89,6 +90,7 @@
       "/v1/users": {
         "get": {
           "summary": "Get Users",
+          "tags": ["Users"],
           "description": "Endpoint to retrieve all users.",
           "responses": {
             "200": {
@@ -100,6 +102,7 @@
       "/v1/users/{user_id}": {
         "delete": {
           "summary": "Delete User",
+          "tags": ["Users"],
           "description": "Endpoint to delete a user by ID.",
           "parameters": [
             {
@@ -121,6 +124,7 @@
         },
         "patch": {
           "summary": "Modify User",
+          "tags": ["Users"],
           "description": "Endpoint to modify a user by ID.",
           "parameters": [
             {
@@ -144,6 +148,7 @@
       "/v1/apartments": {
         "get": {
           "summary": "Get Apartments",
+          "tags": ["Apartments"],
           "description": "Endpoint to retrieve all apartments.",
           "responses": {
             "200": {
@@ -153,6 +158,7 @@
         },
         "post": {
           "summary": "Add Apartment",
+          "tags": ["Apartments"],
           "description": "Endpoint to add a new apartment.",
           "responses": {
             "201": {
@@ -164,6 +170,7 @@
       "/v1/apartments/{ap_id}": {
         "delete": {
           "summary": "Delete Apartment",
+          "tags": ["Apartments"],
           "description": "Endpoint to delete an apartment by ID.",
           "parameters": [
             {
@@ -185,6 +192,7 @@
         },
         "patch": {
           "summary": "Modify Apartment",
+          "tags": ["Apartments"],
           "description": "Endpoint to modify an apartment by ID.",
           "parameters": [
             {
@@ -208,6 +216,7 @@
       "/v1/my_aps/": {
         "get": {
           "summary": "Get My Apartments",
+          "tags": ["Apartments"],
           "description": "Endpoint to retrieve apartments of the current user.",
           "responses": {
             "200": {
@@ -219,6 +228,7 @@
       "/v1/availability_change/{ap_id}": {
         "patch": {
           "summary": "Change Availability",
+          "tags": ["Apartments"],
           "description": "Endpoint to change availability of an apartment by ID.",
           "parameters": [
             {
@@ -242,6 +252,7 @@
       "/v1/reservations/": {
         "post": {
           "summary": "Add Reservation",
+          "tags": ["Reservations"],
           "description": "Endpoint to add a new reservation.",
           "responses": {
             "201": {
@@ -251,6 +262,7 @@
         },
         "get": {
           "summary": "Get Reservations",
+          "tags": ["Reservations"],
           "description": "Endpoint to retrieve all reservations.",
           "responses": {
             "200": {
@@ -262,6 +274,7 @@
       "/v1/reservations/{reserv_id}": {
         "delete": {
           "summary": "Delete Reservation",
+          "tags": ["Reservations"],
           "description": "Endpoint to delete a reservation by ID.",
           "parameters": [
             {
@@ -283,6 +296,7 @@
         },
         "patch": {
           "summary": "Modify Reservation",
+          "tags": ["Reservations"],
           "description": "Endpoint to modify a reservation by ID.",
           "parameters": [
             {
