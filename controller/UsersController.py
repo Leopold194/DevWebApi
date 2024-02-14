@@ -19,8 +19,8 @@ class UsersController:
             return Response("{\"error\":\"You have not provided a body in your request.\"}", status=400, mimetype='application/json')
         try:
             secret_key = self.app.config.get('SECRET_KEY')
-            token = self.users_serv.login_user(body, secret_key)
-            return Response("{\"token\":\""+str(token)+"\"}")
+            token = json.dumps(self.users_serv.login_user(body, secret_key))
+            return Response(token, status=200, mimetype='application/json')
         except exce.EmailOrPasswordIncorrect:
             return Response("{\"error\":\"Your email or your password is incorrect.\"}", status=400, mimetype='application/json')
         except exce.NoEmailOrPasswordFields:
