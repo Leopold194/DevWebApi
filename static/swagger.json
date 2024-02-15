@@ -153,6 +153,33 @@
           "summary": "Modify User",
           "tags": ["Users"],
           "description": "Endpoint to modify a user by ID.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "firstname": {
+                        "type": "string",
+                        "example": "John" 
+                      },
+                      "lastname": {
+                        "type": "string",
+                        "example": "Smith" 
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "your.email@example.xyz" 
+                      },
+                      "status": {
+                        "type": "int",
+                        "example": "2" 
+                      }
+                    }
+                }
+              }
+            }
+          },
           "parameters": [
             {
               "name": "user_id",
@@ -256,6 +283,41 @@
           "summary": "Modify Apartment",
           "tags": ["Apartments"],
           "description": "Endpoint to modify an apartment by ID.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "area": {
+                        "type": "string",
+                        "example": "Paris" 
+                      },
+                      "capacity": {
+                        "type": "number",
+                        "example": 4 
+                      },
+                      "address": {
+                        "type": "string",
+                        "example": "242 rue du Faubourg Saint-Antoine" 
+                      },
+                      "availability": {
+                        "type": "boolean",
+                        "example": "False" 
+                      },
+                      "night_price": {
+                        "type": "number",
+                        "example": 100
+                      },
+                      "proprio": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    }
+                }
+              }
+            }
+          },
           "parameters": [
             {
               "name": "ap_id",
@@ -383,6 +445,37 @@
           "summary": "Modify Reservation",
           "tags": ["Reservations"],
           "description": "Endpoint to modify a reservation by ID.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "starting_date": {
+                        "type": "string",
+                        "example": "2024-03-18" 
+                      },
+                      "ending_date": {
+                        "type": "string",
+                        "example": "2024-03-20" 
+                      },
+                      "apartment": {
+                        "type": "int",
+                        "example": 1 
+                      },
+                      "price": {
+                        "type": "float",
+                        "example": 79.5 
+                      },
+                      "customer": {
+                        "type": "int",
+                        "example": 1 
+                      }
+                    }
+                }
+              }
+            }
+          },
           "parameters": [
             {
               "name": "reserv_id",
