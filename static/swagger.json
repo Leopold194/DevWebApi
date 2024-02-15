@@ -80,6 +80,33 @@
             "summary": "Register",
             "tags": ["Authentication"],
             "description": "Endpoint to register a new user.",
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "firstname": {
+                          "type": "string",
+                          "example": "John" 
+                        },
+                        "lastname": {
+                          "type": "string",
+                          "example": "Smith" 
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "your.email@example.xyz" 
+                        },
+                        "password": {
+                          "type": "string",
+                          "example": "yourpassword" 
+                        }
+                      }
+                  }
+                }
+              }
+            },
             "responses": {
                 "201": {
                     "description": "Successful registration."
@@ -160,6 +187,41 @@
           "summary": "Add Apartment",
           "tags": ["Apartments"],
           "description": "Endpoint to add a new apartment.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "area": {
+                        "type": "string",
+                        "example": "Paris" 
+                      },
+                      "capacity": {
+                        "type": "number",
+                        "example": 4 
+                      },
+                      "address": {
+                        "type": "string",
+                        "example": "242 rue du Faubourg Saint-Antoine" 
+                      },
+                      "availability": {
+                        "type": "boolean",
+                        "example": "False" 
+                      },
+                      "night_price": {
+                        "type": "number",
+                        "example": 100
+                      },
+                      "proprio": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    }
+                }
+              }
+            }
+          },
           "responses": {
             "201": {
               "description": "Apartment added successfully."
@@ -254,6 +316,29 @@
           "summary": "Add Reservation",
           "tags": ["Reservations"],
           "description": "Endpoint to add a new reservation.",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "starting_date": {
+                        "type": "string",
+                        "example": "2024-03-18" 
+                      },
+                      "ending_date": {
+                        "type": "string",
+                        "example": "2024-03-20" 
+                      },
+                      "apartment": {
+                        "type": "number",
+                        "example": 1 
+                      }
+                    }
+                }
+              }
+            }
+          },
           "responses": {
             "201": {
               "description": "Reservation added successfully."
